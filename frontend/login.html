@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Registration</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            padding: 50px;
+            background: #BDBDBD;
+            color: #fff;
+        }
+        .container {
+            width: 350px;
+            margin: auto;
+            padding: 20px;
+            background: #64B5F6;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            color: white;
+        }
+        h2 {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+        input {
+            width: 90%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #bbb;
+            border-radius: 5px;
+            font-size: 16px;
+            background: #f1f1f1;
+            outline: none;
+            color: #333;
+        }
+        button {
+            padding: 12px;
+            width: 100%;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        #loginBtn, #registerBtn {
+            background: #000000;
+            color: white;
+        }
+        #loginBtn:hover, #registerBtn:hover {
+            background: #333333;
+            transform: scale(1.05);
+        }
+        .hidden {
+            display: none;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+        .success {
+            color: lightgreen;
+            font-size: 14px;
+        }
+        .info {
+            font-size: 12px;
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="loginForm">
+        <h2>🔑 Login</h2>
+        <input type="text" id="loginUser" placeholder="User Name">
+        <input type="password" id="loginPassword" placeholder="Enter Password">
+        <button id="loginBtn" onclick="login()">Login</button>
+        <p class="error" id="loginError"></p>
+        <p class="success" id="loginSuccess"></p>
+        <p>New user? <a href="#" onclick="showRegister()">Register here</a></p>
+    </div>
+
+    <div class="container hidden" id="registerForm">
+        <h2>📝 Register</h2>
+        <input type="text" id="regUser" placeholder="User Name">
+        <p class="info">Username: 6-12 alphanumeric characters only.</p>
+        <input type="password" id="regPassword" placeholder="Password">
+        <p class="info">Password: 6-12 chars, at least 1 uppercase, 1 lowercase, 1 number, and 1 special character.</p>
+        <button id="registerBtn" onclick="register()">Register</button>
+        <p class="error" id="registerError"></p>
+        <p class="success" id="registerSuccess"></p>
+        <p>Already registered? <a href="#" onclick="showLogin()">Login here</a></p>
+    </div>
+
+    <script>
+        // Check if user is already logged in
+        window.onload = function() {
+            const token = localStorage.getItem("token");
+            if (token) {
+                window.location.href = "index.html"; 
+            }
+        };
+
+        function showRegister() {
+            document.getElementById("loginForm").classList.add("hidden");
+            document.getElementById("registerForm").classList.remove("hidden");
+        }
+
+        function showLogin() {
+            document.getElementById("registerForm").classList.add("hidden");
+            document.getElementById("loginForm").classList.remove("hidden");
+        }
+
+        function validateUsername(username) {
+            const usernameRegex = /^[a-zA-Z0-9]{6,12}$/;
+            return usernameRegex.test(username);
+        }
+
+        function validatePassword(password) {
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,12}$/;
+            return passwordRegex.test(password);
+        }
+
+        async function register() {
+            const username = document.getElementById("regUser").value;
+            const password = document.getElementById("regPassword").value;
+            const errorDiv = document.getElementById("registerError");
+            const successDiv = document.getElementById("registerSuccess");
+
+            errorDiv.innerHTML = "";
+            successDiv.innerHTML = "";
+
+            if (!validateUsername(username)) {
+                errorDiv.innerHTML = "Invalid username! Must be 6-12 alphanumeric characters.";
+                return;
+            }
+
+            if (!validatePassword(password)) {
+                errorDiv.innerHTML = "Invalid password! Must be 6-12 characters with at least 1 uppercase, 1 lowercase, 1 number, and 1 special character.";
+                return;
+            }
+
+            try {
+                const response = await fetch("http://localhost:8080/api/auth/register", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    successDiv.innerHTML = "Registration successful! Redirecting...";
+                    setTimeout(() => {
+                        document.getElementById("loginUser").value = username;
+                        document.getElementById("loginPassword").value = password;
+                        showLogin();
+                    }, 2000);
+                } else {
+                    errorDiv.innerHTML = data.message || "Registration failed!";
+                }
+            } catch (error) {
+                errorDiv.innerHTML = "Server error. Please try again.";
+            }
+        }
+
+        async function login() {
+            const username = document.getElementById("loginUser").value;
+            const password = document.getElementById("loginPassword").value;
+            const errorDiv = document.getElementById("loginError");
+            const successDiv = document.getElementById("loginSuccess");
+
+            errorDiv.innerHTML = "";
+            successDiv.innerHTML = "";
+
+            if (!validateUsername(username)) {
+                errorDiv.innerHTML = "Invalid username! Must be 6-12 alphanumeric characters.";
+                return;
+            }
+
+            if (!validatePassword(password)) {
+                errorDiv.innerHTML = "Invalid password! Must be 6-12 characters with at least 1 uppercase, 1 lowercase, 1 number, and 1 special character.";
+                return;
+            }
+
+            try {
+                const response = await fetch("http://localhost:8080/api/auth/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    successDiv.innerHTML = "Login successful! Redirecting...";
+                    localStorage.setItem("token", data.token);
+                    localStorage.setItem("username", username);
+                    setTimeout(() => {
+                        window.location.href = "index.html"; 
+                    }, 2000);
+                } else {
+                    errorDiv.innerHTML = data.message || "Invalid credentials!";
+                }
+            } catch (error) {
+                errorDiv.innerHTML = "Server error. Please try again.";
+            }
+        }
+    </script>
+</body>
+</html>
