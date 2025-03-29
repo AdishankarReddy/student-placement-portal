@@ -18,7 +18,6 @@ git clone "https://github.com/AdishankarReddy/student-placement-portal/"
 
 ### 2️⃣ Navigate to Backend Folder
 ```sh
-cd student-placement-portal
 cd backend
 ```
 
