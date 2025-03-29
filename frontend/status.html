@@ -3,26 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Placement Status</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Student Placement Portal</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h2>📢 Placement Status</h2>
-    
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Serial No</th>
-                <th>Student ID</th>
-                <th>Name</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody id="placementTableBody">
-            <!-- Placement records will be inserted here -->
-        </tbody>
-    </table>
+<body class="bg-gray-300 min-h-screen">
 
-    <script src="placementStatus.js"></script>
+    <!-- Navbar -->
+    <nav class="bg-gray-600 text-white py-4 px-6 flex justify-between items-center shadow-md border-b-4 border-gray-600">
+        <h1 class="text-2xl font-bold font-serif transition-all duration-300 hover:scale-105">
+            Student Placement Portal
+        </h1>
+    </nav>
+
+    <div class="flex items-center justify-center mt-6">
+        <div class="max-w-4xl mx-auto bg-white shadow-2xl rounded-2xl p-8 transition-all duration-300 hover:shadow-3xl">
+            <h1 class="text-4xl font-extrabold text-gray-700 text-center mb-6 font-serif">Student Placement Status</h1>
+
+            <!-- Buttons -->
+            <div class="flex justify-center gap-4 mb-6">
+                <button onclick="filterStudents('all')" class="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-red-500 transition-all duration-300">All</button>
+                <button onclick="filterStudents('placed')" class="bg-green-400 text-white px-6 py-2 rounded-lg hover:bg-red-500 transition-all duration-300">Placed</button>
+                <button onclick="filterStudents('not_placed')" class="bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-green-500 transition-all duration-300">Not Placed</button>
+                <button onclick="toggleChart()" class="bg-green-700 text-white px-6 py-2 rounded-lg hover:bg-red-500 transition-all duration-300">Pie Chart</button>
+            </div>
+
+            <!-- Pie Chart -->
+            <div id="chartContainer" class="hidden flex justify-center my-6">
+                <canvas id="placementChart" width="400" height="300"></canvas>
+            </div>
+
+            <!-- Student List -->
+            <div id="studentList" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+        </div>
+    </div>
+
+    <script>
+        const students = [
+            { id: 1, name: "Aarav Sharma", placed: true },
+            { id: 2, name: "Sanya Verma", placed: false },
+            { id: 3, name: "Rohan Iyer", placed: true },
+            { id: 4, name: "Neha Patel", placed: false },
+            { id: 5, name: "Vikram Singh", placed: true },
+            { id: 6, name: "Priya Das", placed: false },
+            { id: 7, name: "Aditya Nair", placed: true },
+            { id: 8, name: "Kavya Reddy", placed: false },
+        ];
+
+        function filterStudents(filter) {
+            const studentList = document.getElementById("studentList");
+            studentList.innerHTML = "";
+
+            let filteredStudents = students;
+            if (filter === "placed") {
+                filteredStudents = students.filter(student => student.placed);
+            } else if (filter === "not_placed") {
+                filteredStudents = students.filter(student => !student.placed);
+            }
+
+            filteredStudents.forEach(student => {
+                const card = document.createElement("div");
+                card.className = "p-6 flex justify-between items-center shadow-md border border-black rounded-xl bg-gradient-to-r from-white to-gray-100 hover:shadow-lg hover:scale-105 transition-all duration-300";
+
+                const name = document.createElement("h2");
+                name.className = "text-lg font-semibold text-gray-900 hover:text-gray-700 transition-all duration-300 font-serif";
+                name.textContent = student.name;
+
+                const badge = document.createElement("span");
+                badge.className = `py-2 px-4 rounded-full text-lg font-semibold ${
+                    student.placed ? "bg-green-200 text-green-800 border-green-500" : "bg-red-200 text-red-800 border-red-500"
+                }`;
+                badge.textContent = student.placed ? "Placed" : "Not Placed";
+
+                card.appendChild(name);
+                card.appendChild(badge);
+                studentList.appendChild(card);
+            });
+        }
+
+        let chart;
+        function toggleChart() {
+            const chartContainer = document.getElementById("chartContainer");
+            chartContainer.classList.toggle("hidden");
+
+            if (!chart) {
+                const ctx = document.getElementById("placementChart").getContext("2d");
+                chart = new Chart(ctx, {
+                    type: "pie",
+                    data: {
+                        labels: ["Placed", "Not Placed"],
+                        datasets: [{
+                            data: [
+                                students.filter(s => s.placed).length,
+                                students.filter(s => !s.placed).length
+                            ],
+                            backgroundColor: ["#008000", "#FF0000"]
+                        }]
+                    }
+                });
+            }
+        }
+
+        filterStudents("all");
+    </script>
 </body>
 </html>
