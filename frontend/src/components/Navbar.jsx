@@ -1,10 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
 export default function Navbar(){
     const navigate = useNavigate();
+    const [isAdmin,setIsAdmin] = useState(false);
     const {user,logout}  = useAuth();
+    useEffect(() => {
+        const userRole = localStorage.getItem('role');
+        setIsAdmin(userRole === 'admin');
+      }, []);
     return   <nav className="bg-blue-600 p-4 shadow-md flex justify-between items-center sticky top-0 z-10">
     <div className="flex items-center space-x-4">
       <Link to="/" className="text-white text-lg font-bold">Placement Portal</Link>
@@ -35,14 +40,16 @@ export default function Navbar(){
 
     <div className="flex space-x-4">
       {/* Placement Status */}
-      <Link to="/status" className="bg-white text-blue-600 px-4 py-2 rounded-lg shadow hover:bg-gray-200 transition-transform transform hover:scale-105 flex items-center">
+      {
+        isAdmin && <Link to="/placement-status" className="bg-white text-blue-600 px-4 py-2 rounded-lg shadow hover:bg-gray-200 transition-transform transform hover:scale-105 flex items-center">
         <i className="fas fa-check-circle mr-2"></i> Placement Status
       </Link>
+      }
       
       {/* Upload Resume Button */}
-      <Link to="/resume" className="bg-white text-blue-600 px-4 py-2 rounded-lg shadow hover:bg-gray-200 transition-transform transform hover:scale-105 flex items-center"> 
+      {/* <Link to="/resume" className="bg-white text-blue-600 px-4 py-2 rounded-lg shadow hover:bg-gray-200 transition-transform transform hover:scale-105 flex items-center"> 
         <i className="fas fa-upload mr-2"></i> Upload Resume
-      </Link>
+      </Link> */}
       
       {/* Login/Logout Button */}
       {user ? (

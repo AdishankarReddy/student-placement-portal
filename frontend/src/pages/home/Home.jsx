@@ -139,9 +139,9 @@ const Home = () => {
           <p className="mt-4 text-gray-700 text-lg">Explore placement trends and insights.</p>
           
           {/* Vacancies Link */}
-          <Link to="/vacancy" className="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition-transform transform hover:scale-105 flex items-center">
+          {/*<Link to="/vacancy" className="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition-transform transform hover:scale-105 flex items-center">
             <i className="fas fa-briefcase mr-2"></i> Vacancies
-          </Link>
+          </Link>*/}
           
           {/* Button to Show Graph */}
           <button 

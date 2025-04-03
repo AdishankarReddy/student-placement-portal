@@ -5,7 +5,8 @@ const authRoutes = require("./routes/authRoutes");
 const placementRoutes = require("./routes/placementRoutes"); // ✅ Import Placement Routes
 const connectDB = require("./db");
 const companyRoutes = require("./routes/companyRoutes");
-
+const Student = require("./models/Student");
+const studentRouter = require("./routes/studentRoutes");
 // ✅ Load environment variables
 dotenv.config();
 
@@ -29,6 +30,7 @@ app.use((req, res, next) => {
 app.use("/api/auth", authRoutes);
 app.use("/api", placementRoutes); // ✅ Moved this below 'app' declaration
 app.use("/api/companies", companyRoutes);
+app.use("/api/students", studentRouter);
 
 // ✅ Use the correct PORT value
 const PORT = process.env.PORT || 8080;

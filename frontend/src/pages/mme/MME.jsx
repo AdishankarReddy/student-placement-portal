@@ -1,4 +1,5 @@
 import Layout from "../../Layout";
+import Companies from "../cse/Companies";
 
 
 const MME = () => {
@@ -14,6 +15,7 @@ const MME = () => {
           <p className="tagline">"Forging the future, one alloy at a time!"</p>
         </div>
       </div>
+      <Companies/>
     </div>
    </Layout>
   );

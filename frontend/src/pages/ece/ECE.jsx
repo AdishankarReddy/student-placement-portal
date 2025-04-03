@@ -1,4 +1,5 @@
 import Layout from "../../Layout";
+import Companies from "../cse/Companies";
 
 const ECE = () => {
   return (
@@ -18,6 +19,8 @@ const ECE = () => {
           </p>
         </div>
       </div>
+
+      <Companies/>
     </div>
     </Layout>
   );

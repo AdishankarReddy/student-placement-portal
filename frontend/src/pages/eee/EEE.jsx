@@ -1,4 +1,5 @@
 import Layout from "../../Layout";
+import Companies from "../cse/Companies";
 
 const EEE = () => {
   return (
@@ -18,6 +19,7 @@ const EEE = () => {
           </p>
         </div>
       </div>
+      <Companies/>
     </div>
    </Layout>
   );

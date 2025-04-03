@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Layout from '../../Layout';
 import { useAuth } from '../../hooks/useAuth';
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -80,7 +79,6 @@ const Login = () => {
   };
 
   return (
-   <Layout>
      <div className="min-h-screen flex items-center justify-center bg-gray-400 p-6">
       {isLogin ? (
         <div className="w-full max-w-sm p-6 bg-blue-400 rounded-lg shadow-lg text-white">
@@ -160,7 +158,6 @@ const Login = () => {
         </div>
       )}
     </div>
-   </Layout>
   );
 };
 

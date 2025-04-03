@@ -1,4 +1,5 @@
 import Layout from "../../Layout";
+import Companies from "../cse/Companies";
 
 const CIVIL = () => {
   return (
@@ -13,6 +14,7 @@ const CIVIL = () => {
           <p className="tagline">"Building the future, one structure at a time!"</p>
         </div>
       </div>
+      <Companies/>
     </div>
     </Layout>
   );

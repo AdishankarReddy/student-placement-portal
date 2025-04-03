@@ -10,7 +10,7 @@ import CIVIL from "./pages/civil/CIVIL";
 import Login from "./pages/login/Login";
 import { AuthProvider } from "./hooks/useAuth";
 import { Toaster } from "react-hot-toast";
-
+import PlacementStatus from "./pages/placement-status/PlacementStatus";
 const ProtectedRoute = ({children}) => {
   const token = localStorage.getItem('token');
   if(!token){
@@ -73,6 +73,12 @@ export default function App() {
         <Route path="/civil" element={
           <ProtectedRoute>
             <CIVIL />
+          </ProtectedRoute>
+        } />
+
+      <Route path="/placement-status" element={
+          <ProtectedRoute>
+            <PlacementStatus />
           </ProtectedRoute>
         } />
       </Routes>

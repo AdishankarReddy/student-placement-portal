@@ -1,4 +1,5 @@
 import Layout from "../../Layout";
+import Companies from "../cse/Companies";
 
 const ME = () => {
   return (
@@ -18,6 +19,7 @@ const ME = () => {
           </p>
         </div>
       </div>
+      <Companies/>
     </div>
     </Layout>
   );
