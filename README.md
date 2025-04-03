@@ -41,14 +41,17 @@ npm run dev
 ```
 The backend server will start on **http://localhost:8080** (or your configured PORT).
 
-### 6️⃣ Open the Frontend
-After the backend is running, open the frontend by launching `frontend/index.html` in your browser.
+### 6️⃣ Start the React Frontend
+After the backend is running, open another terminal and run `npm run dev` to start the react project in development mode.
+
+The react project will start on **http://localhost:5173**.
+
 
 ## 🛠 Project Structure
 ```
 student-placement-portal/
 │── backend/       # Express.js backend
-│── frontend/      # HTML, CSS, and JavaScript frontend
+│── frontend/      # React frontend
 │── README.md      # Project documentation
 ```
 
@@ -59,7 +62,7 @@ student-placement-portal/
 - 🔐 Secure authentication using JWT
 
 ## 🏗 Built With
-- **Frontend:** HTML, CSS, JavaScript
+- **Frontend:** React
 - **Backend:** Node.js, Express.js
 - **Database:** MongoDB
 
