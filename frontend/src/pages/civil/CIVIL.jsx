@@ -14,7 +14,7 @@ const CIVIL = () => {
           <p className="tagline">"Building the future, one structure at a time!"</p>
         </div>
       </div>
-      <Companies/>
+      <Companies branch={"CE"}/>
     </div>
     </Layout>
   );

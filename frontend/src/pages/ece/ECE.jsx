@@ -20,7 +20,7 @@ const ECE = () => {
         </div>
       </div>
 
-      <Companies/>
+      <Companies branch={"ECE"}/>
     </div>
     </Layout>
   );

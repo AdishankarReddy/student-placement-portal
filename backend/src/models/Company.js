@@ -17,7 +17,8 @@ const CompanySchema = new mongoose.Schema({
     applyLink: {
         type: String,
         required: true
-    }
+    },
+    branch:String
 }, { timestamps: true });
 
 module.exports = mongoose.model("Company", CompanySchema);

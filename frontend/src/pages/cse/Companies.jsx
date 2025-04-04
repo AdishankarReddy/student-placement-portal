@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 
-export default function Companies() {
+export default function Companies({branch}) {
   const [companies, setCompanies] = useState([]);
   const [selectedCompany, setSelectedCompany] = useState(null);
   const [newCompany, setNewCompany] = useState({ companyName: "", noOfVacancies: "", roles: "", applyLink: "" });
   const [editCompany, setEditCompany] = useState(null);
+  const [deleteConfirmation, setDeleteConfirmation] = useState(null);
   const [errors, setErrors] = useState({});
   const userRole = localStorage.getItem("role");
   const token = localStorage.getItem("token");
@@ -17,12 +18,16 @@ export default function Companies() {
 
   const fetchCompanies = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/companies");
+      const response = await axios.get(`http://localhost:8080/api/companies/${branch}`);
       setCompanies(response.data);
     } catch (error) {
       toast.error("Error fetching companies");
       console.error("Error fetching companies:", error);
     }
+  };
+
+  const confirmDelete = (company) => {
+    setDeleteConfirmation(company);
   };
 
   const handleDelete = async (id) => {
@@ -31,6 +36,7 @@ export default function Companies() {
         headers: { Authorization: `Bearer ${token}` },
       });
       fetchCompanies();
+      setDeleteConfirmation(null);
       toast.success("Company deleted successfully");
     } catch (error) {
       toast.error("Error deleting company");
@@ -77,7 +83,7 @@ export default function Companies() {
     
     try {
       await axios.post(
-        "http://localhost:8080/api/companies",
+        `http://localhost:8080/api/companies/${branch}`,
         {
           companyName: newCompany.companyName,
           noOfVacancies: newCompany.noOfVacancies,
@@ -186,7 +192,7 @@ export default function Companies() {
                 {userRole === "admin" && (
                   <>
                     <button className="bg-gradient-to-b from-amber-400 to-amber-700 text-white px-4 py-2 rounded-lg mr-2 cursor-pointer" onClick={() => setEditCompany(company)}>Edit</button>
-                    <button className="bg-gradient-to-b from-red-400 to-red-700 text-white px-4 py-2 rounded-lg cursor-pointer" onClick={() => handleDelete(company._id)}>Delete</button>
+                    <button className="bg-gradient-to-b from-red-400 to-red-700 text-white px-4 py-2 rounded-lg cursor-pointer" onClick={() => confirmDelete(company)}>Delete</button>
                   </>
                 )}
               </div>
@@ -217,6 +223,29 @@ export default function Companies() {
             <p>Roles: {selectedCompany.roles.join(", ")}</p>
             <a href={selectedCompany.applyLink} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline block my-2">Apply Here</a>
             <button className="bg-red-600 text-white px-4 py-2 rounded-lg" onClick={() => setSelectedCompany(null)}>Close</button>
+          </div>
+        </div>
+      )}
+
+      {deleteConfirmation && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/10 bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-xl w-96 text-center">
+            <h2 className="text-2xl font-bold mb-4">Confirm Delete</h2>
+            <p className="mb-6">Are you sure you want to delete <span className="font-semibold">{deleteConfirmation.companyName}</span>?</p>
+            <div className="flex justify-center space-x-4">
+              <button 
+                className="bg-red-600 text-white px-4 py-2 rounded-lg" 
+                onClick={() => handleDelete(deleteConfirmation._id)}
+              >
+                Yes, Delete
+              </button>
+              <button 
+                className="bg-gray-600 text-white px-4 py-2 rounded-lg" 
+                onClick={() => setDeleteConfirmation(null)}
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
       )}

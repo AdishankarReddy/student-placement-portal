@@ -19,7 +19,7 @@ const ME = () => {
           </p>
         </div>
       </div>
-      <Companies/>
+      <Companies branch={"ME"}/>
     </div>
     </Layout>
   );

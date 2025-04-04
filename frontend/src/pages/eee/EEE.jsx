@@ -19,7 +19,7 @@ const EEE = () => {
           </p>
         </div>
       </div>
-      <Companies/>
+      <Companies branch={"EEE"}/>
     </div>
    </Layout>
   );

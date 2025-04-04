@@ -3,7 +3,8 @@ const Company = require("../models/Company");
 // 🟢 Get all companies (Accessible to students & admins)
 const getAllCompanies = async (req, res) => {
     try {
-        const companies = await Company.find();
+        const branch = req.params.branch;
+        const companies = await Company.find({branch});
         res.json(companies);
     } catch (error) {
         res.status(500).json({ message: "Server error" });
@@ -13,6 +14,7 @@ const getAllCompanies = async (req, res) => {
 // 🔵 Add a new company (Admins only)
 const addCompany = async (req, res) => {
     try {
+        const branch = req.params.branch;
         const { companyName, noOfVacancies, roles, applyLink } = req.body;
 
         const companyExists = await Company.findOne({ companyName });
@@ -24,7 +26,8 @@ const addCompany = async (req, res) => {
             companyName,
             noOfVacancies,
             roles,
-            applyLink
+            applyLink,
+            branch
         });
 
         await newCompany.save();

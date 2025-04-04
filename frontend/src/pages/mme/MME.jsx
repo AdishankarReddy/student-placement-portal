@@ -15,7 +15,7 @@ const MME = () => {
           <p className="tagline">"Forging the future, one alloy at a time!"</p>
         </div>
       </div>
-      <Companies/>
+      <Companies branch={"MME"}/>
     </div>
    </Layout>
   );

@@ -20,7 +20,7 @@ export default function CSE() {
         </p>
       </div>
 
-      <Companies/>
+      <Companies branch={"CSE"}/>
     </div>
    </Layout>
   );

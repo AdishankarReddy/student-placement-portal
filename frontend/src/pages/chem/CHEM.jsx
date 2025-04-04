@@ -14,7 +14,7 @@ const CHEM = () => {
           <p className="tagline">"Transforming molecules into solutions, one reaction at a time!"</p>
         </div>
       </div>
-      <Companies/>
+      <Companies branch={"CHE"}/>
     </div>
    </Layout>
   );
