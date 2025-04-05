@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import Navbar from '../../components/Navbar';
+import axios from 'axios';
 
 // Register ChartJS components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
@@ -13,13 +14,61 @@ const Home = () => {
   const [showGraph, setShowGraph] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const marqueeRef = useRef(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [students, setStudents] = useState([]);
+  const [placedCount, setUpdateCount] = useState({ cse: 0, ece: 0, eee: 0, me: 0, che: 0, ce: 0, mme: 0 });
 
   useEffect(() => {
     // Check login status
     const username = localStorage.getItem('username');
     const token = localStorage.getItem('token');
     setIsLoggedIn(!!username && !!token);
+    fetchStudents('CSE');
+    fetchStudents('ECE');
+    fetchStudents('EEE');
+    fetchStudents('ME');
+    fetchStudents('CHE');
+    fetchStudents('CE');
+    fetchStudents('MME');
   }, []);
+
+  // Fetch students data
+  const fetchStudents = async (branch) => {
+    if (!branch) {
+      setError('Please select a branch');
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError(null);
+      const token = localStorage.getItem('token');
+
+      const response = await axios.get(`http://localhost:8080/api/students/${branch}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      // Ensure response data is an array
+      const studentsData = Array.isArray(response.data.students) ? response.data.students : [];
+
+      setStudents(studentsData);
+      let filtered = studentsData.filter(student => student.status === 'placed');
+      setUpdateCount(prevState => ({
+        ...prevState,
+        [branch.toLowerCase()]: filtered.length
+      }));
+    } catch (err) {
+      setError('Failed to fetch students data. Please try again.');
+      console.error('Error fetching students:', err);
+      // Initialize with empty arrays on error
+      setStudents([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const logoutUser = () => {
     localStorage.removeItem('username');
@@ -30,10 +79,10 @@ const Home = () => {
 
   // Chart data
   const chartData = {
-    labels: ["CSE", "IT", "ECE", "ME", "EE", "Civil", "AI & DS"],
+    labels: ['CSE', 'ECE', 'EEE', 'ME', 'CHE', 'CE', 'MME'],
     datasets: [{
       label: "Students Placed",
-      data: [120, 85, 95, 60, 70, 50, 90],
+      data: [placedCount.cse, placedCount.ece, placedCount.eee, placedCount.me, placedCount.che, placedCount.ce, placedCount.mme],
       backgroundColor: ["#3b82f6", "#22c55e", "#f59e0b", "#ef4444", "#8b5cf6", "#ec4899", "#14b8a6"],
       borderWidth: 1
     }]
@@ -59,7 +108,7 @@ const Home = () => {
       </section>
 
       {/* Navigation Bar */}
-    <Navbar/>
+      <Navbar />
 
       {/* Upcoming Drive Updates (Side Scrolling) */}
       <div className="bg-gray-200 py-2 overflow-hidden whitespace-nowrap">
@@ -137,20 +186,20 @@ const Home = () => {
         <section id="analytics" className="p-10 bg-white text-center flex flex-col justify-center items-center">
           <h2 className="text-3xl font-bold text-blue-600">Analytics</h2>
           <p className="mt-4 text-gray-700 text-lg">Explore placement trends and insights.</p>
-          
+
           {/* Vacancies Link */}
           {/*<Link to="/vacancy" className="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition-transform transform hover:scale-105 flex items-center">
             <i className="fas fa-briefcase mr-2"></i> Vacancies
           </Link>*/}
-          
+
           {/* Button to Show Graph */}
-          <button 
-            onClick={() => setShowGraph(true)} 
+          <button
+            onClick={() => setShowGraph(true)}
             className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition"
-          > 
-            Show Placement Graph 
+          >
+            Show Placement Graph
           </button>
-          
+
           {/* Graph Container */}
           {showGraph && (
             <div className="mt-6 flex justify-center items-center w-full h-64">
@@ -163,20 +212,20 @@ const Home = () => {
         <section id="contact" className="p-10 bg-gray-100 text-center">
           <h2 className="text-3xl font-bold text-blue-600">Contact Us</h2>
           <p className="mt-4 text-gray-700 text-lg">For any queries, feel free to reach out to us:</p>
-          
+
           <div className="mt-8 flex justify-center space-x-8">
             {/* Phone Icon */}
             <a href="tel:+1234567890" className="text-blue-600 hover:text-blue-800 transition duration-300">
               <i className="fas fa-phone-alt text-4xl"></i>
               <p className="mt-2 text-sm text-gray-700">Call Us</p>
             </a>
-            
+
             {/* Email Icon */}
             <a href="mailto:support@placementportal.com" className="text-blue-600 hover:text-blue-800 transition duration-300">
               <i className="fas fa-envelope text-4xl"></i>
               <p className="mt-2 text-sm text-gray-700">Email Us</p>
             </a>
-            
+
             {/* LinkedIn Icon */}
             <a href="https://www.linkedin.com/company/placementportal" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 transition duration-300">
               <i className="fab fa-linkedin text-4xl"></i>
