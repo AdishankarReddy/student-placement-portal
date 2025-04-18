@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
+
 export default function Navbar(){
     const navigate = useNavigate();
     const [isAdmin,setIsAdmin] = useState(false);
@@ -47,9 +48,9 @@ export default function Navbar(){
       }
       
       {/* Upload Resume Button */}
-      {/* <Link to="/resume" className="bg-white text-blue-600 px-4 py-2 rounded-lg shadow hover:bg-gray-200 transition-transform transform hover:scale-105 flex items-center"> 
+      <Link to="/resume" className="bg-white text-blue-600 px-4 py-2 rounded-lg shadow hover:bg-gray-200 transition-transform transform hover:scale-105 flex items-center"> 
         <i className="fas fa-upload mr-2"></i> Upload Resume
-      </Link> */}
+      </Link>
       
       {/* Login/Logout Button */}
       {user ? (

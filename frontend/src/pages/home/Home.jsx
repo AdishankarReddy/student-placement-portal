@@ -4,6 +4,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 import { Bar } from 'react-chartjs-2';
 import Navbar from '../../components/Navbar';
 import axios from 'axios';
+import { toast } from "react-hot-toast";
 
 // Register ChartJS components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
@@ -18,12 +19,14 @@ const Home = () => {
   const [error, setError] = useState(null);
   const [students, setStudents] = useState([]);
   const [placedCount, setUpdateCount] = useState({ cse: 0, ece: 0, eee: 0, me: 0, che: 0, ce: 0, mme: 0 });
+  const [companies, setCompanies] = useState([])
 
   useEffect(() => {
     // Check login status
     const username = localStorage.getItem('username');
     const token = localStorage.getItem('token');
     setIsLoggedIn(!!username && !!token);
+    fetchCompanies();
     fetchStudents('CSE');
     fetchStudents('ECE');
     fetchStudents('EEE');
@@ -32,6 +35,17 @@ const Home = () => {
     fetchStudents('CE');
     fetchStudents('MME');
   }, []);
+
+  const fetchCompanies = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8080/api/companies/CSE`);
+      setCompanies(response.data);
+    } catch (error) {
+      toast.error("Error fetching companies");
+      console.error("Error fetching companies:", error);
+    }
+  };
+
 
   // Fetch students data
   const fetchStudents = async (branch) => {
@@ -97,6 +111,18 @@ const Home = () => {
     }
   };
 
+  const colors = [
+    "text-red-600",
+    "text-green-600",
+    "text-blue-600",
+    "text-yellow-600",
+    "text-purple-600",
+    "text-pink-600",
+    "text-indigo-600",
+    "text-teal-600",
+    "text-orange-600"
+  ];
+
   return (
     <div className="bg-gradient-to-r from-blue-50 to-blue-100 min-h-screen flex flex-col scroll-smooth">
       {/* Title Section */}
@@ -115,45 +141,62 @@ const Home = () => {
         <div ref={marqueeRef} className="inline-block" style={{
           animation: 'marquee 15s linear infinite'
         }}>
-          <span className="text-blue-600 font-bold mx-8">🚀 Google Drive - 20-03-25 - CSE</span>
-          <span className="text-green-600 font-bold mx-8">📌 Microsoft Drive - 15-04-25 - IT</span>
-          <span className="text-red-600 font-bold mx-8">🔧 Tesla Drive - 13-04-25 - ME</span>
-          <span className="text-purple-600 font-bold mx-8">⚡ Amazon Drive - 06-04-25- ECE</span>
-          <span className="text-orange-600 font-bold mx-8">🏗️ L&T Drive - 28-04-25- Civil</span>
+          {companies.map((item, i) => {
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            return (
+              <span key={i} className={`${randomColor} font-bold mx-8`}>
+                {item.companyName} - {item.noOfVacancies}
+              </span>
+            );
+          })}
         </div>
       </div>
 
       {/* Main Sections */}
       <div className="relative flex-grow overflow-y-auto pr-4" id="scroll-container">
         {/* Home Section */}
-        <section id="home" className="p-10 text-center flex flex-col justify-start items-center min-h-screen">
-          <h2 className="text-4xl font-bold text-blue-600" style={{ animation: 'bounce 1s infinite' }}>Welcome to the Student Placement Portal</h2>
-          <p className="mt-4 text-gray-700 text-lg">Connecting students with career opportunities.</p>
-        </section>
-
-        {/* Placement Updates Box (Fixed Bottom-Right, Only On Home Page) */}
-        <div className="fixed right-4 bottom-4 bg-white p-4 shadow-lg rounded-lg w-72 h-72 overflow-hidden border-l-4 border-blue-600 hidden lg:block">
-          <h3 className="text-lg font-bold text-blue-600 text-center mb-2">Placement Updates</h3>
-          <div className="h-full overflow-hidden relative">
-            <ul className="text-gray-700 space-y-2" style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '10px',
-              animation: 'scroll 12s linear infinite'
-            }}>
-              <li>🎓 John Doe - Google (CSE)</li>
-              <li>🎓 Sarah Lee - Microsoft (CSE)</li>
-              <li>🎓 Alex Smith - Amazon (ECE)</li>
-              <li>🎓 Emma Brown - Facebook (ME)</li>
-              <li>🎓 Chris Johnson - Tesla (EE)</li>
-              <li>🎓 Sophia Martinez - Apple (CSE)</li>
-              <li>🎓 Daniel Wilson - IBM (Civil)</li>
-              <li>🎓 Olivia White - Intel (CSE)</li>
-              <li>🎓 William Green - Adobe (CSE)</li>
-              <li>🎓 Ava Thompson - Netflix (ECE)</li>
-            </ul>
+        <section
+          id="home"
+          className="p-10 text-center flex flex-col lg:flex-row justify-between items-start min-h-screen relative"
+        >
+          <div className="flex-1">
+            <h2
+              className="text-4xl font-bold text-blue-600"
+              style={{ animation: "bounce 1s infinite" }}
+            >
+              Welcome to the Student Placement Portal
+            </h2>
+            <p className="mt-4 text-gray-700 text-lg">
+              Connecting students with career opportunities.
+            </p>
           </div>
-        </div>
+
+          {/* Placement Updates Box */}
+          <div className="mt-10 bg-white p-4 shadow-lg rounded-lg w-72 h-72 overflow-hidden border-r-4 border-blue-600 hidden lg:block">
+            <div className="h-full overflow-hidden relative">
+              <ul
+                className="text-gray-700 space-y-2"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "10px",
+                  animation: "scroll 12s linear infinite",
+                }}
+              >
+                <li>🎓 John Doe - Google (CSE)</li>
+                <li>🎓 Sarah Lee - Microsoft (CSE)</li>
+                <li>🎓 Alex Smith - Amazon (ECE)</li>
+                <li>🎓 Emma Brown - Facebook (ME)</li>
+                <li>🎓 Chris Johnson - Tesla (EE)</li>
+                <li>🎓 Sophia Martinez - Apple (CSE)</li>
+                <li>🎓 Daniel Wilson - IBM (Civil)</li>
+                <li>🎓 Olivia White - Intel (CSE)</li>
+                <li>🎓 William Green - Adobe (CSE)</li>
+                <li>🎓 Ava Thompson - Netflix (ECE)</li>
+              </ul>
+            </div>
+          </div>
+        </section>
 
         {/* About Us Section */}
         <section id="about" className="p-10 bg-gray-100 text-center min-h-screen relative overflow-hidden">

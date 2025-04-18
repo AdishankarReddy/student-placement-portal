@@ -11,10 +11,11 @@ import Login from "./pages/login/Login";
 import { AuthProvider } from "./hooks/useAuth";
 import { Toaster } from "react-hot-toast";
 import PlacementStatus from "./pages/placement-status/PlacementStatus";
-const ProtectedRoute = ({children}) => {
+import ResumeUpload from "./components/ResumeUpload";
+const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem('token');
-  if(!token){
-    return <Navigate to="/login"/>
+  if (!token) {
+    return <Navigate to="/login" />
   }
   return children;
 }
@@ -23,66 +24,72 @@ export default function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-      <Toaster position="top-right" />
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        
-        {/* Protected Routes */}
-        <Route path="/" element={
-          <ProtectedRoute>
-            <Home />
-          </ProtectedRoute>
-        } />
+        <Toaster position="top-right" />
+        <Routes>
+          <Route path="/login" element={<Login />} />
 
-        <Route path="/cse" element={
-          <ProtectedRoute>
-            <CSE />
-          </ProtectedRoute>
-        } />
-        
-        <Route path="/eee" element={
-          <ProtectedRoute>
-            <EEE />
-          </ProtectedRoute>
-        } />
-        
-        <Route path="/me" element={
-          <ProtectedRoute>
-            <ME />
-          </ProtectedRoute>
-        } />
-        
-        <Route path="/ece" element={
-          <ProtectedRoute>
-            <ECE />
-          </ProtectedRoute>
-        } />
-        
-        <Route path="/chem" element={
-          <ProtectedRoute>
-            <CHEM />
-          </ProtectedRoute>
-        } />
-        
-        <Route path="/mme" element={
-          <ProtectedRoute>
-            <MME />
-          </ProtectedRoute>
-        } />
-        
-        <Route path="/civil" element={
-          <ProtectedRoute>
-            <CIVIL />
-          </ProtectedRoute>
-        } />
+          {/* Protected Routes */}
+          <Route path="/" element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          } />
 
-      <Route path="/placement-status" element={
-          <ProtectedRoute>
-            <PlacementStatus />
-          </ProtectedRoute>
-        } />
-      </Routes>
-    </BrowserRouter>
+          <Route path="/cse" element={
+            <ProtectedRoute>
+              <CSE />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/eee" element={
+            <ProtectedRoute>
+              <EEE />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/me" element={
+            <ProtectedRoute>
+              <ME />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/ece" element={
+            <ProtectedRoute>
+              <ECE />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/chem" element={
+            <ProtectedRoute>
+              <CHEM />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/mme" element={
+            <ProtectedRoute>
+              <MME />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/civil" element={
+            <ProtectedRoute>
+              <CIVIL />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/placement-status" element={
+            <ProtectedRoute>
+              <PlacementStatus />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/resume" element={
+            <ProtectedRoute>
+              <ResumeUpload />
+            </ProtectedRoute>
+          } />
+        </Routes>
+      </BrowserRouter>
     </AuthProvider>
   );
 }

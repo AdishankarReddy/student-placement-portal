@@ -23,11 +23,6 @@ const verifyAdmin = async (req, res, next) => {
             return res.status(404).json({ message: "User not found." });
         }
 
-        // 4️⃣ Check If User Is Admin
-        if (user.role !== "admin") {
-            return res.status(403).json({ message: "Access denied. Admins only." });
-        }
-
         // 5️⃣ Proceed to Next Middleware
         next();
     } catch (error) {
