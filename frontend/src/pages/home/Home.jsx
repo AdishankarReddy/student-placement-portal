@@ -157,7 +157,7 @@ const Home = () => {
         {/* Home Section */}
         <section
           id="home"
-          className="p-10 text-center flex flex-col lg:flex-row justify-between items-start min-h-screen relative"
+          className="p-10 text-center flex flex-col lg:flex-row justify-between items-start  relative"
         >
           <div className="flex-1">
             <h2
@@ -198,42 +198,41 @@ const Home = () => {
           </div>
         </section>
 
-        {/* About Us Section */}
-        <section id="about" className="p-10 bg-gray-100 text-center min-h-screen relative overflow-hidden">
-          {/* Title and Description */}
+        {/* About Us Section - Fixed to ensure visibility */}
+        <section id="about" className="p-10 bg-gray-100 text-center min-h-screen">
           <div className="container mx-auto max-w-4xl">
-            <h2 className="text-4xl font-bold text-blue-600">About Us</h2>
-            <p className="mt-4 text-black text-lg">We help students connect with top companies for internships and placements. Our mission is to bridge the gap between talent and opportunity.</p>
-
-            {/* Values Section */}
+            <h2 className="text-4xl font-bold text-blue-600 mb-6">About Us</h2>
+            <p className="mt-4 text-gray-700 text-lg">Our Student Placement Portal serves as a comprehensive platform showcasing real-time placement activities within our university. We provide transparent information about companies recruiting on campus, placement statistics across all B.Tech departments, and essential tools for career preparation.</p>
+            
+            {/* Features Section */}
             <div className="mt-12">
-              <h3 className="text-2xl font-semibold text-blue-600">Our Core Values</h3>
-              <ul className="mt-6 text-left text-lg text-black space-y-4">
-                <li>Personalized Career Guidance</li>
-                <li>Industry Connections with Leading Companies</li>
-                <li>Skill Development Resources for Success</li>
+              <h3 className="text-2xl font-semibold text-blue-600">Key Features</h3>
+              <ul className="mt-6 text-left text-lg text-gray-700 space-y-4">
+                <li><span className="font-semibold">Live Company Updates:</span> Track active recruiters and available positions in real-time</li>
+                <li><span className="font-semibold">Department-wise Analytics:</span> View placement statistics across CSE, ECE, EEE, ME, CHE, CE and MME departments</li>
+                <li><span className="font-semibold">Placement Visualization:</span> Interactive graphs showing placement performance by department</li>
+                <li><span className="font-semibold">Resume Checker:</span> AI-powered tool to optimize your resume for better results</li>
+                <li><span className="font-semibold">Placement Status Tracking:</span> Monitor placed vs. unplaced students in each department</li>
               </ul>
             </div>
-
+            
+            {/* Purpose Section */}
+            <div className="mt-12">
+              <h3 className="text-2xl font-semibold text-blue-600">Our Purpose</h3>
+              <p className="mt-4 text-gray-700 text-lg">We're committed to enhancing the placement experience for all students by providing transparency, resources, and tools that prepare you for successful career transitions. Our portal bridges the gap between university education and industry requirements.</p>
+            </div>
+            
             {/* Call to Action */}
             <div className="mt-12">
-              <button className="bg-blue-600 text-white px-6 py-3 rounded-lg text-xl shadow-lg hover:bg-blue-700 transition duration-300">Get Started Today</button>
+              {/* <button className="bg-blue-600 text-white px-6 py-3 rounded-lg text-xl shadow-lg hover:bg-blue-700 transition duration-300">Get Started Today</button> */}
             </div>
           </div>
-
-          {/* Background Animation */}
-          <div className="absolute top-0 left-0 w-full h-full bg-blue-200 bg-opacity-30 z-0"></div>
         </section>
 
         {/* Analytics Section */}
         <section id="analytics" className="p-10 bg-white text-center flex flex-col justify-center items-center">
           <h2 className="text-3xl font-bold text-blue-600">Analytics</h2>
           <p className="mt-4 text-gray-700 text-lg">Explore placement trends and insights.</p>
-
-          {/* Vacancies Link */}
-          {/*<Link to="/vacancy" className="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition-transform transform hover:scale-105 flex items-center">
-            <i className="fas fa-briefcase mr-2"></i> Vacancies
-          </Link>*/}
 
           {/* Button to Show Graph */}
           <button
