@@ -219,7 +219,7 @@ const Home = () => {
             {/* Purpose Section */}
             <div className="mt-12">
               <h3 className="text-2xl font-semibold text-blue-600">Our Purpose</h3>
-              <p className="mt-4 text-gray-700 text-lg">We're committed to enhancing the placement experience for all students by providing transparency, resources, and tools that prepare you for successful career transitions. Our portal bridges the gap between university education and industry requirements.</p>
+              <p className="mt-4 text-gray-700 text-lg">"We're committed to enhancing the placement experience for all students by providing transparency and information about industry opportunities. Our portal bridges the gap between university education and industry requirements by making placement data accessible and clear.</p>
             </div>
             
             {/* Call to Action */}
@@ -257,19 +257,19 @@ const Home = () => {
 
           <div className="mt-8 flex justify-center space-x-8">
             {/* Phone Icon */}
-            <a href="tel:+1234567890" className="text-blue-600 hover:text-blue-800 transition duration-300">
-              <i className="fas fa-phone-alt text-4xl"></i>
-              <p className="mt-2 text-sm text-gray-700">Call Us</p>
-            </a>
+<a href="tel:+7075828829" className="text-blue-600 hover:text-blue-800 transition duration-300">
+  <i className="fas fa-phone-alt text-4xl"></i>
+  <p className="mt-2 text-sm text-gray-700">Call Us: +91 707582 8829</p>
+</a>
 
-            {/* Email Icon */}
-            <a href="mailto:support@placementportal.com" className="text-blue-600 hover:text-blue-800 transition duration-300">
-              <i className="fas fa-envelope text-4xl"></i>
-              <p className="mt-2 text-sm text-gray-700">Email Us</p>
-            </a>
+{/* Email Icon */}
+<a href="mailto:n200671@rguktn.ac.in" className="text-blue-600 hover:text-blue-800 transition duration-300">
+  <i className="fas fa-envelope text-4xl"></i>
+  <p className="mt-2 text-sm text-gray-700">Email Us</p>
+</a>
 
             {/* LinkedIn Icon */}
-            <a href="https://www.linkedin.com/company/placementportal" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 transition duration-300">
+            <a href="https://www.linkedin.com/in/adishankar-reddy-patti-7310b4254/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 transition duration-300">
               <i className="fab fa-linkedin text-4xl"></i>
               <p className="mt-2 text-sm text-gray-700">Follow Us</p>
             </a>
